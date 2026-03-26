@@ -19,6 +19,11 @@ services:
       <<: *immich-env
     ports:
       - "2283:2283"
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 4G
     depends_on:
       - redis
       - database
@@ -30,6 +35,11 @@ services:
       - /mnt/nas/data/immich-ml-cache:/cache
     environment:
       <<: *immich-env
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 4G
     restart: always
 
   redis:
