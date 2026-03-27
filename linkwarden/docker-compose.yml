@@ -22,7 +22,7 @@ services:
     ports:
       - "3003:3000"
     volumes:
-      - /mnt/nas/data/docker/linkwarden/data:/data/data
+      - /mnt/nas/docker/linkwarden/data:/data/data
     depends_on:
       postgres:
         condition: service_healthy
@@ -37,7 +37,7 @@ services:
       <<: *linkwarden-env
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - /mnt/nas/data/docker/linkwarden/pgdata:/var/lib/postgresql/data
+      - /mnt/nas/docker/linkwarden/pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 30s
@@ -52,7 +52,7 @@ services:
       <<: *linkwarden-env
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
     volumes:
-      - /mnt/nas/data/docker/linkwarden/meili_data:/meili_data
+      - /mnt/nas/docker/linkwarden/meili_data:/meili_data
     restart: unless-stopped
     logging: *default-logging
 
