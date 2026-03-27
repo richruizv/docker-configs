@@ -1,0 +1,13 @@
+tunnel: 4221939d-d636-4b5c-86d6-fb4bd3f5920f
+credentials-file: /home/richard/.cloudflared/4221939d-d636-4b5c-86d6-fb4bd3f5920f.json
+
+ingress:
+  # Immich - photos.rich-vault.com
+  - hostname: photos.rich-vault.com
+    service: http://localhost:2283
+  - hostname: crypt.rich-vault.com
+    service: http://localhost:8222
+  - hostname: links.rich-vault.com
+    service: http://localhost:3001
+
+  - service: http_status:404

@@ -1,0 +1,4 @@
+# Local DNS resolution for homelab
+192.168.0.2 netdata.local
+192.168.0.2 uptimekuma.local
+192.168.0.2 portainer.local
