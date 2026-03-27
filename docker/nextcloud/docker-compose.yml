@@ -71,6 +71,4 @@ services:
       - internal
 
 networks:
-  proxy-network:
-    external: true
   internal:

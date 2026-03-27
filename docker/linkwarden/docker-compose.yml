@@ -30,6 +30,8 @@ services:
         condition: service_started
     restart: unless-stopped
     logging: *default-logging
+    networks:
+      - internal
 
   postgres:
     image: postgres:16-alpine
@@ -45,6 +47,8 @@ services:
       retries: 3
     restart: unless-stopped
     logging: *default-logging
+    networks:
+      - internal
 
   meilisearch:
     image: getmeili/meilisearch:v1.12.8
@@ -55,8 +59,8 @@ services:
       - /mnt/nas/docker/linkwarden/meili_data:/meili_data
     restart: unless-stopped
     logging: *default-logging
+    networks:
+      - internal
 
 networks:
-  default:
-    name: proxy-network
-    external: true
+  internal:
