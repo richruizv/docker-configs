@@ -9,5 +9,7 @@ ingress:
     service: http://localhost:8222
   - hostname: links.rich-vault.com
     service: http://localhost:3002
+  - hostname: cloud.rich-vault.com
+    service: http://localhost:8080
 
   - service: http_status:404
