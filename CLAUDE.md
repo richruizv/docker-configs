@@ -15,3 +15,5 @@ We are using cloudflared as tunnel
 
 all data are in /mnt/nas/data/{images,videos,documents,music,photos,}
 when you create a docker compose file
+
+docker data services should be store in /mnt/nas/data/docker/{service_name}
