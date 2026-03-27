@@ -1,11 +1,15 @@
-version: "3.8"
-
 x-immich-environment: &immich-env
   DB_HOSTNAME: ${DB_HOSTNAME}
   DB_USERNAME: ${DB_USERNAME}
   DB_PASSWORD: ${DB_PASSWORD}
   DB_DATABASE_NAME: ${DB_DATABASE_NAME}
   REDIS_HOSTNAME: ${REDIS_HOSTNAME}
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
 
 services:
   immich-server:
@@ -25,9 +29,12 @@ services:
           cpus: "2"
           memory: 4G
     depends_on:
-      - redis
-      - database
-    restart: always
+      redis:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+    restart: unless-stopped
+    logging: *default-logging
 
   immich-machine-learning:
     image: ghcr.io/immich-app/immich-machine-learning:release
@@ -40,11 +47,18 @@ services:
         limits:
           cpus: "2"
           memory: 4G
-    restart: always
+    restart: unless-stopped
+    logging: *default-logging
 
   redis:
     image: redis:6.2
-    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    logging: *default-logging
 
   database:
     image: tensorchord/pgvecto-rs:pg14-v0.2.0
@@ -54,4 +68,15 @@ services:
       POSTGRES_PASSWORD:
     volumes:
       - /mnt/nas/docker/immich/pgdata:/var/lib/postgresql/data
-    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d ${DB_DATABASE_NAME} -U ${DB_USERNAME}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    logging: *default-logging
+
+networks:
+  default:
+    name: proxy-network
+    external: true

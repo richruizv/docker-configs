@@ -2,13 +2,18 @@ services:
   portainer:
     container_name: portainer
     image: portainer/portainer-ce:sts
-    restart: always
+    restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
     ports:
       - 9443:9443
       # - 8000:8000  # Remove if you do not intend to use Edge Agents
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 volumes:
   portainer_data:
@@ -16,4 +21,5 @@ volumes:
 
 networks:
   default:
-    name: portainer_network
+    name: proxy-network
+    external: true

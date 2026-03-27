@@ -7,6 +7,16 @@ services:
       - uptime-kuma-data:/app/data
     ports:
       - "3002:3001"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 volumes:
   uptime-kuma-data:
+
+networks:
+  default:
+    name: proxy-network
+    external: true
