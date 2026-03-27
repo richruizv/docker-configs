@@ -31,7 +31,8 @@ services:
       - "8080:80"
     volumes:
       - /mnt/nas/docker/nextcloud/html:/var/www/html
-      - /mnt/nas/data/nextcloud:/var/www/html/data
+      - /mnt/nas/docker/nextcloud/data:/var/www/html/data
+      - /mnt/nas/data:/mnt/nas/data
     depends_on:
       postgres:
         condition: service_healthy
